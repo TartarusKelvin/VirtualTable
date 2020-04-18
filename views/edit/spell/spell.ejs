@@ -7,5 +7,13 @@
 <a class="btn btn-primary" href="spell/new" role="button">New Spell</a>
 <a class="btn btn-primary" href="spell/edit" role="button">Edit Spell</a>
 
-
+<div style="text-align: center;">
+    <% if (spells.length == 0){ %> 
+        <div><b>There Are No Spells Perhaps You Should Create One</b></div>
+    <%}%>
+    <% spells.forEach(spell => { %>
+        <div><b><%= spell.name %></b>
+        <b>(<%= spell.source_book.short_name%>)</b></div>
+        <%});%>
+    </div>
 </div>

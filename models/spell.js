@@ -19,6 +19,17 @@ const spellSchema = new mongoose.Schema({
         required: true,
         default: 0
     },
+    cast_time:{
+        unit:{
+            type: String,
+            required: true,
+        },
+        len:{
+            type: Number,
+            required: true,
+            default: 0
+        },
+    },
     components:{
         V:{
             type: Boolean,
@@ -32,7 +43,7 @@ const spellSchema = new mongoose.Schema({
         },
         M:{
                 type: String,
-                required: true,
+                required: false,
                 default:""
         }
     },

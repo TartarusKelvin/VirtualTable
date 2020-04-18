@@ -39,16 +39,28 @@
         <input type="text" name="Material">
     </div>
     <div class="form-group">
-        <label>Duration:</label>
-        <input type="number" name="Duration">
-        
+        <label>Casting Time:</label>
+        <input type="number" name="cast_time">
+        <select name="castUnit">
+            <option value="ac">Action</option>
+            <option value="ra">Reaction</option>
+            <option value="ba">Bonus Action</option>
+            <option value="min">min</option>
+        </select>       
         <input type="checkbox" name="Concentration">
         <label>Concentration</label>
-
     </div>
     <div class="form-group">
-        <label for="name"> Short Code:</label>
-        <input autocomplete="off" type="text" name="code" value=""class="form-control" >
+        <label>Duration:</label>
+        <input type="number" name="Duration">
+        <select name="durUnit">
+            <option value="rnd">Round</option>
+            <option value="min">Minute</option>
+            <option value="hr">Hour</option>
+            <option value="day">Day</option>
+        </select>       
+        <input type="checkbox" name="Concentration">
+        <label>Concentration</label>
     </div>
     <div class="form-group">
         <label for="disc"> Description:</label>

@@ -7,11 +7,6 @@ const User = require('../models/user')
 const SourceBook = require("../models/SourceBook")
 const Spell = require("../models/spell")
 
-// All Users
-router.get('/', async (req,res)=>
-{
-})
-
 // New User
 router.get('/sbook',async (req,res)=>
 {
@@ -78,7 +73,13 @@ router.post("/sbook",async (req,res)=>
 
 router.get("/spell",async(req,res)=>
 {
-    res.render("edit/spell/spell", {})
+    try{
+        const spells = await Spell.find().populate("source_book").exec()
+        spells.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+        res.render("edit/spell/spell",{spells:spells})
+    }catch{
+        res.render("edit/spell/spell", {})
+    }
 })
 router.post("/spell",async(req,res)=>
 {
@@ -91,14 +92,16 @@ router.post("/spell",async(req,res)=>
         {
             V: (req.body.Verbal == null? false:true),
             S: (req.body.Somatic == null? false:true),
-            M:{
-                material:req.body.Material
-            }
+            M: (req.body.Material == null? " ":req.body.Material)
         },
         duration:{
-            unit: "min",
+            unit: req.body.durUnit,
             len: req.body.Duration,
             concentration: (req.body.Concentration == null? false:true),
+        },
+        cast_time:{
+            unit: req.body.castUnit,
+            len: req.body.cast_time,
         },
         description:req.body.description,
         at_higer_level:req.body.Higher_Level
@@ -109,14 +112,13 @@ router.post("/spell",async(req,res)=>
         const newspell = await spell.save()
     }
     catch{}
-
-
     res.redirect("/content/spell")
 })
 router.get("/spell/new",async(req,res)=>
 {
     let books = await SourceBook.find()
     books.sort((a,b) => (a.short_name > b.short_name) ? 1 : ((b.short_name > a.short_name) ? -1 : 0));
+    
     res.render("edit/spell/new", {books:books})
 })
 
