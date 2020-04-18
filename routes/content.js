@@ -81,6 +81,17 @@ router.get("/spell",async(req,res)=>
         res.render("edit/spell/spell", {})
     }
 })
+
+router.get("/spell/view/:id",async(req,res)=>
+{
+    try{
+        const spell = await Spell.findById(req.params.id).populate("source_book").exec()
+        res.render("edit/spell/view",{spell:spell})
+    }catch{
+        res.redirect("/content/spell")
+    }
+})
+
 router.post("/spell",async(req,res)=>
 {
     const spell = new Spell({

@@ -1,0 +1,62 @@
+<div class="col-sm-3"></div>
+<div class="col-sm-6" style="text-align: center;">
+<h1><%= spell.name%> (<%= spell.source_book.short_name%>)</h1>
+
+<div><b>
+    <% if(spell.level==0){%>
+        Cantrip
+    <%} else{%>
+        Level <%= spell.level%>
+    <%}%></b>
+</div>
+<div><b>
+    Casting Time:
+    <% if(spell.cast_time.len == 0) { %>
+    <%}else{%>
+        <%= spell.cast_time.len%>
+        <%if(spell.cast_time.unit === "ac"){%> Action<%}%>
+        <%if(spell.cast_time.unit === "ra"){%> Reaction<%}%>
+        <%if(spell.cast_time.unit === "ba"){%> Bonus Action<%}%>
+        <%if(spell.cast_time.unit === "min"){%> Minute(s)<%}%>
+    <%}%>
+</b>
+</div>
+<div><b>
+    Components: 
+    <% if(spell.components.V) {%>V<%}%>
+    <% if(spell.components.S) {%>S<%}%>
+    <% if(spell.components.M !== "") {%>M(<%=spell.components.M%>)<%}%>
+</b></div>
+<div><b>
+    <% if(spell.duration.concentration) {%>
+    Concentration
+    <%}%>
+</b>
+</div>
+<div><b>Range:
+    <%if (spell.range == 0){%> Touch <%}%>
+    <%if (spell.range == -1){%> Self <%}%>
+    <%if (spell.range > 0){%> <%= spell.range%>ft. <%}%>
+</b></div>
+<div><b>
+    Duration:
+    <% if(spell.duration.len == 0) { %>
+        Instantaneous
+    <%}else{%>
+        <%= spell.duration.len%>
+        <%if(spell.duration.unit === "rnd"){%> Round(s)<%}%>
+        <%if(spell.duration.unit === "min"){%> Minute(s)<%}%>
+        <%if(spell.duration.unit === "hr"){%> Hour(s)<%}%>
+        <%if(spell.duration.unit === "day"){%> Day(s)<%}%>
+    <%}%>
+</b>
+</div>
+
+<div><%= spell.description%></div>
+<% if(spell.at_higher_level !== ""){%>
+<h3>At Higher Levels</h3>
+<%= spell.at_higher_level %>
+<%}%>
+
+<a class="btn btn-primary" href="/content/spell/edit/<%=spell._id%>" role="button">Edit Spell</a>
+</div>

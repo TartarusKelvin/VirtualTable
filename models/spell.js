@@ -66,7 +66,7 @@ const spellSchema = new mongoose.Schema({
     description: {
         type: String
     },
-    at_higer_level: {
+    at_higher_level: {
         type: String
     }
 })
