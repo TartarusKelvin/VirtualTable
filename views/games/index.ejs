@@ -1,0 +1,24 @@
+<div class="col-sm-1"></div>
+<div class="col-sm-10" style="text-align: center">
+    <h1> Search Games</h1>
+    <form class="form-inline" action="/game" method="GET">
+        <div class="form-group">
+            <label>Name: </label>
+            <input class="form-control" autocomplete="off" type="text" name="name" value="<%= searchOptions.name %>" required>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Search</button>
+        </div>
+    </form>
+
+    <br>
+        <% if (games.length == 0){ %> 
+            <div><b> No Games Are Available.<br> Perhaps Reducing Your Search Critera Will Help</b></div>
+        <%}%>
+        <% games.forEach(game => { %>
+            <div> <a href="/game/view/<%= game._id%>" ><b><%= game.name %></b></a>
+            <b>(GM: <%= game.gm.name%>)</b></div>
+        <%});%>
+
+</div>
+<div class="col-sm-1"></div>

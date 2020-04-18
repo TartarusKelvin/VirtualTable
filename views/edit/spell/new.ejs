@@ -1,0 +1,63 @@
+<div class="col-sm-3"></div>
+<div class="col-sm-6" style="text-align: center;">
+<h1>New Spell</h1>
+<form class="form" style="text-align: left;" action="/content/spell" method="POST">
+    <div class="form-group">
+        <label for="name"> Name</label>
+        <input autocomplete="off" type="text" name="name" value=""class="form-control">
+    </div>
+    <label>Source Book:</label>
+    <select class="form-control" name="source" id="to-edit">
+        <% books.forEach( book=> {%>
+            <option value="<%= book._id %>"><%= book.name %></option>
+        <% }) %>
+    </select>
+    <label>Level:</label>
+    <select class="form-control" name="lvl">
+            <option value="0">Cantrip</option>
+            <option value="1">Level 1</option>
+            <option value="2">Level 2</option>
+            <option value="3">Level 3</option>
+            <option value="4">Level 4</option>
+            <option value="5">Level 5</option>
+            <option value="6">Level 6</option>
+            <option value="7">Level 7</option>
+            <option value="8">Level 8</option>
+            <option value="9">Level 9</option>
+    </select>
+    <div class="form-group">
+        <label for="name"> Range (0 for touch and -1 for self):</label>
+        <input autocomplete="off" type="number" name="range" value="0"class="form-control" >
+    </div>
+    <div class="form-group">
+        <label>Components:</label><br>
+        <input type="checkbox" name="Verbal" value="true">
+        <label> Verbal</label><br>
+        <input type="checkbox" name="Somatic" value="true">
+        <label> Somatic</label><br>
+        <label for="Material">Material</label>
+        <input type="text" name="Material">
+    </div>
+    <div class="form-group">
+        <label>Duration:</label>
+        <input type="number" name="Duration">
+        
+        <input type="checkbox" name="Concentration">
+        <label>Concentration</label>
+
+    </div>
+    <div class="form-group">
+        <label for="name"> Short Code:</label>
+        <input autocomplete="off" type="text" name="code" value=""class="form-control" >
+    </div>
+    <div class="form-group">
+        <label for="disc"> Description:</label>
+        <textarea name="description" class="form-control" id="disc"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="disc"> At Higer Levels</label>
+        <textarea name="Higher_Level" class="form-control" id="disc"></textarea>
+    </div>
+    <button type="submit"  class="btn btn-default">Create</button>
+</form>
+</div>

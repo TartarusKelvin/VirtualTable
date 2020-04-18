@@ -1,0 +1,38 @@
+<div class="col-sm-1"></div>
+<div class="col-sm-10" style="text-align: center">
+<img src="<%=game.coverImagePath%>"  height="500" width="auto" class="rounded"> 
+<h1><%=game.name%></h1>
+<% if(canplay){%>
+<button type="button" class="btn btn-primary">Play</button>
+<%}%>
+<div>
+    <%=game.description%>
+</div>
+<div class="col-sm-5">
+    <h2>Players</h2>
+    <% game.players.forEach(player => { %>
+        <div>
+        <b><%= player.name%></b></div>
+    <%});%>
+</div>
+<div class="col-sm-5">
+    <h2>GM</h2>
+    <div><b> <%=game.gm.name%></b></div>
+    <% if(!canplay) {%>
+    <h2>Join</h2>
+    <% if(user_name != null) {%>
+    <form class="form-group" action="/game/join/<%=game._id%>" method="POST">
+        <div>
+            <label for="pwd"> Password</label>
+            <input autocomplete="off" type="password" name="pass" value=""class="form-control" id="pwd">
+        </div>
+        <button type="submit"  class="btn btn-default">Join Game</button>
+    </form>
+    <%} else{%>
+        <div>
+            <b> You need to login to join: <a href="/user/login">login</a>,<a href="/user/new">signup</a></b>
+        </div>
+        <%}%>
+<% } %> 
+</div>
+</div>

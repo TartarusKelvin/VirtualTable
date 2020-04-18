@@ -1,0 +1,62 @@
+<div class="col-sm-3"></div>
+<div class="col-sm-6" style="text-align: center;">
+
+<h1 style="text-align: center;"> Source Books</h1>
+<form class="form-inline" style="text-align: center;" action="/content/sbook" method="POST">
+    <div class="form-group">
+        <label for="name"> Name</label>
+        <input autocomplete="off" type="text" name="name" value=""class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="name"> Short Code:</label>
+        <input autocomplete="off" type="text" name="code" value=""class="form-control" >
+    </div>
+    <button type="submit"  class="btn btn-default">Create</button>
+</form>
+<br>
+
+<h3>Edit Source Book</h3>
+<form class="form-inline" style="text-align: center;" action="/content/sbook/edit" method="POST">
+    <label>Edit:</label>
+    <select class="form-control" name="toedit" id="to-edit" onchange="updateEditFields()">
+        <% books.forEach( book=> {%>
+            <option value="<%= book._id %>"><%= book.name %></option>
+        <% }) %>
+    </select>
+    <div class="form-group">
+        <label for="name"> Name</label>
+        <input id="to-edit-name"autocomplete="off" type="text" name="name" value=""class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="name"> Short Code:</label>
+        <input id="to-edit-code"autocomplete="off" type="text" name="code" value=""class="form-control" >
+    </div>
+    <button type="submit"  class="btn btn-default">Update</button>
+</form>
+
+<h3> All Source Books</h3>
+<div style="text-align: center;">
+<% if (books.length == 0){ %> 
+    <div><b>There Are No Source Books Perhaps You Should Create One</b></div>
+<%}%>
+<% books.forEach(book => { %>
+    <div><b><%= book.name %></b>
+    <b>(<%= book.short_name%>)</b></div>
+    <%});%>
+</div>
+</div>
+
+<script>
+    function updateEditFields(){
+        var toedit = document.getElementById("to-edit");
+        var urlapp = toedit.options[toedit.selectedIndex].value; 
+        fetch('/content/sbook/peek/'.concat(urlapp))
+            .then(res => res.json())
+            .then((out) => {
+                document.getElementById("to-edit-name").value = out.name;
+                document.getElementById("to-edit-code").value = out.short_name;
+                console.log('Output: ', out);
+            }).catch(err => console.error(err));
+    }
+    updateEditFields()
+</script>
