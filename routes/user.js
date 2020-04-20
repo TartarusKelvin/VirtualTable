@@ -43,16 +43,7 @@ router.post("/login", async (req,res)=>
         user = users[0]
         if(passwordHash.verify(req.body.pass, user.pass))
         {
-            if(req.body.remember)
-            {
-                res.cookie("user_secret",user.secret,
-                {expires: new Date(Date.now() + 900000)})
-                res.cookie("user_name",user.name,
-                {expires: new Date(Date.now() + 900000)})
-            }else{
-                res.cookie("user_secret",user.secret)
-                res.cookie("user_name",user.name)
-            }
+            saveUserInfo(user.secret,user.name,req.body.remember)
         }else{
             throw "FAILED COMPARIOSN";
         }
@@ -80,16 +71,7 @@ router.post("/new", async(req, res) =>{
         users_with_same_name = await User.find(searchOptions)
         if(users_with_same_name.length === 0){
             const newUser = await user.save()
-            if(req.body.remember)
-            {
-                res.cookie("user_secret",user.secret,
-                {expires: new Date(Date.now() + 900000)})
-                res.cookie("user_name",user.name,
-                {expires: new Date(Date.now() + 900000)})
-            }else{
-                res.cookie("user_secret",user.secret)
-                res.cookie("user_name",user.name)
-            }
+            saveUserInfo(user.secret,user.name,req.body.remember)
             res.redirect("/")
         } else{
             res.render("user/new",{
