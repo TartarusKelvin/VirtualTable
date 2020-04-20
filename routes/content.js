@@ -61,8 +61,6 @@ router.post("/sbook",async (req,res)=>
         name: req.body.name,
         short_name: req.body.code
     })
-    console.log(req.body.name)
-    console.log(book)
     try{
         const newbook = await book.save()
         res.redirect("/content/sbook")
@@ -101,19 +99,19 @@ router.post("/spell",async(req,res)=>
         range: req.body.range,
         components:
         {
-            V: (req.body.Verbal == null? false:true),
-            S: (req.body.Somatic == null? false:true),
-            M: (req.body.Material == null? " ":req.body.Material)
+            V: (req.body.Verbal === null? false:true),
+            S: (req.body.Somatic === null? false:true),
+            M: (req.body.Material === null? " ":req.body.Material)
         },
         duration:{
             unit: req.body.durUnit,
             len: req.body.Duration,
-            concentration: (req.body.Concentration == null? false:true),
+            concentration: (req.body.Concentration === null? false:true),
         },
         cast_time:{
             unit: req.body.castUnit,
             len: req.body.cast_time,
-            ritual: (req.body.ritual == null? false:true),
+            ritual: (req.body.ritual === null? false:true),
         },
         description:req.body.description,
         school:req.body.school,

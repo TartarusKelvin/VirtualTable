@@ -2,6 +2,19 @@ const express = require("express")
 const router = express.Router()
 const passwordHash = require('password-hash');
 const User = require('../models/user')
+
+function saveUserInfo(secret, username, remember=false){
+    if(remember){
+        res.cookie("user_secret",secret,
+            {expires: new Date(Date.now() + 900000)})
+        res.cookie("user_name",username,
+            {expires: new Date(Date.now() + 900000)})
+    }else{
+        res.cookie("user_secret",secret)
+        res.cookie("user_name",username)
+    }
+}
+
 // All Users
 router.get('/', async (req,res)=>
 {
@@ -41,7 +54,6 @@ router.post("/login", async (req,res)=>
                 res.cookie("user_name",user.name)
             }
         }else{
-            console.log("Failed COmpa")
             throw "FAILED COMPARIOSN";
         }
         res.redirect("/")
@@ -66,7 +78,7 @@ router.post("/new", async(req, res) =>{
             name: req.body.name
         }
         users_with_same_name = await User.find(searchOptions)
-        if(users_with_same_name.length == 0){
+        if(users_with_same_name.length === 0){
             const newUser = await user.save()
             if(req.body.remember)
             {
@@ -105,7 +117,7 @@ router.get('/logout', async (req,res)=>
 async function getUserName(secret){
     const user = await User.find({secret:secret})
     console.log(user)
-    if(user.length != 0)
+    if(user.length !== 0)
         return user[0]
     return null
 }

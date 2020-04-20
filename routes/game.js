@@ -14,6 +14,7 @@ const upload = multer({
     }
 })
 
+
 // All Games
 router.get('/', async (req,res)=>
 {
@@ -32,26 +33,19 @@ router.get('/', async (req,res)=>
 
 router.get('/view/:gameid', async (req,res)=>
 {
-    let searchOptions = {}
+    let searchOptions = {};
     if(req.query.name != null && req.query.name !== "")
-    {
-        searchOptions._id = req.params.gameid
-    }
+        searchOptions._id = req.params.gameid;
     try{
-        let games = await Game.findById(req.params.gameid).populate("gm").populate("players").exec()
-        res.render("games/viewgame", {game:games,canplay:games.players.some(e => e.secret === req.cookies.user_secret)})
+        let games = await Game.findById(req.params.gameid).populate("gm").populate("players").exec();
+        res.render("games/viewgame", {game:games,canplay:games.players.some(e => e.secret === req.cookies.user_secret)});
     }catch{
-        res.render("games/index", {games:[], searchOptions:req.query})
+        res.render("games/index", {games:[], searchOptions:req.query});
     }
 })
 
 router.post('/join/:gameid', async (req,res)=>
 {
-    let searchOptions = {}
-    if(req.query.name != null && req.query.name !== "")
-    {
-        searchOptions._id = req.params.gameid
-    }
     try{
         let games = await Game.findById(req.params.gameid).populate("gm").exec()
         let user = await User.find({secret:req.cookies.user_secret})
@@ -69,7 +63,7 @@ router.post('/join/:gameid', async (req,res)=>
 // New Game
 router.get('/new',(req,res)=>
 {
-    if(req.cookies.user_secret != null){
+    if(req.cookies.user_secret !== null){
         res.render("games/new", {game: new Game()})
     }else{
         res.redirect("/user/login")
@@ -78,7 +72,7 @@ router.get('/new',(req,res)=>
 
 //create Game Route
 router.post("/", upload.single('cover') , async(req, res) =>{
-    const filename = req.file !=null ? req.file.filename : null
+    const filename = req.file !==null ? req.file.filename : null
     const users = await User.find({secret: req.cookies.user_secret})
     const game = new Game({
         name: req.body.name,

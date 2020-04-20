@@ -29,7 +29,7 @@ const gameSchema = new mongoose.Schema({
 })
 
 gameSchema.virtual('coverImagePath').get(function(){
-    if (this.coverName != null)
+    if (this.coverName !== null)
     {
         return path.join('/',coverImageBasePath,this.coverName)
     }
