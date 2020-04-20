@@ -6,6 +6,17 @@
         <label for="name"> Name</label>
         <input autocomplete="off" type="text" name="name" value=""class="form-control">
     </div>
+    <label>School</label>
+    <select class="form-control" name="school">
+        <option value="abjuration">Abjuration</option>
+        <option value="conjuration">Conjuration</option>
+        <option value="divination">Divination</option>
+        <option value="enchantment">Enchantment</option>
+        <option value="evocation">Evocation</option>
+        <option value="illusion">Illusion</option>
+        <option value="necromancy">Necromancy</option>
+        <option value="transmutation">Transmutation</option>
+    </select>
     <label>Source Book:</label>
     <select class="form-control" name="source" id="to-edit">
         <% books.forEach( book=> {%>
@@ -26,6 +37,19 @@
             <option value="9">Level 9</option>
     </select>
     <div class="form-group">
+        <label>Casting Time:</label>
+        <input type="number" name="cast_time">
+        <select name="castUnit">
+            <option value="ac">Action</option>
+            <option value="ra">Reaction</option>
+            <option value="ba">Bonus Action</option>
+            <option value="min">Min</option>
+            <option value="hr">Hour</option>
+        </select>       
+        <input type="checkbox" name="ritual">
+        <label>Ritual</label>
+    </div>
+    <div class="form-group">
         <label for="name"> Range (0 for touch and -1 for self):</label>
         <input autocomplete="off" type="number" name="range" value="0"class="form-control" >
     </div>
@@ -39,25 +63,15 @@
         <input type="text" name="Material">
     </div>
     <div class="form-group">
-        <label>Casting Time:</label>
-        <input type="number" name="cast_time">
-        <select name="castUnit">
-            <option value="ac">Action</option>
-            <option value="ra">Reaction</option>
-            <option value="ba">Bonus Action</option>
-            <option value="min">min</option>
-        </select>       
-        <input type="checkbox" name="Concentration">
-        <label>Concentration</label>
-    </div>
-    <div class="form-group">
         <label>Duration:</label>
-        <input type="number" name="Duration">
+        <input type="number" name="Duration" value="0">
         <select name="durUnit">
             <option value="rnd">Round</option>
             <option value="min">Minute</option>
             <option value="hr">Hour</option>
             <option value="day">Day</option>
+            <option value="dis">Until dispelled</option>
+            <option value="spe">Special</option>
         </select>       
         <input type="checkbox" name="Concentration">
         <label>Concentration</label>

@@ -29,6 +29,11 @@ const spellSchema = new mongoose.Schema({
             required: true,
             default: 0
         },
+        ritual:{
+            type: Boolean,
+            required: true,
+            default:false
+        }
     },
     components:{
         V:{
@@ -68,6 +73,10 @@ const spellSchema = new mongoose.Schema({
     },
     at_higher_level: {
         type: String
+    },
+    school: {
+        type: String,
+        required: true
     }
 })
 

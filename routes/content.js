@@ -113,8 +113,10 @@ router.post("/spell",async(req,res)=>
         cast_time:{
             unit: req.body.castUnit,
             len: req.body.cast_time,
+            ritual: (req.body.ritual == null? false:true),
         },
         description:req.body.description,
+        school:req.body.school,
         at_higer_level:req.body.Higher_Level
     })
     console.log(spell.components.V)
@@ -123,7 +125,7 @@ router.post("/spell",async(req,res)=>
         const newspell = await spell.save()
     }
     catch{}
-    res.redirect("/content/spell")
+    res.redirect("/content/spell/new")
 })
 router.get("/spell/new",async(req,res)=>
 {
