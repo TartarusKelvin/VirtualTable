@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const spellSchema = new mongoose.Schema({
     name: {
@@ -78,6 +78,6 @@ const spellSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-})
+});
 
-module.exports = mongoose.model('Spell',spellSchema)
+module.exports = mongoose.model("Spell",spellSchema);

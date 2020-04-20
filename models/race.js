@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const raceSchema = new mongoose.Schema({
     name: {
@@ -7,7 +7,7 @@ const raceSchema = new mongoose.Schema({
     },
     book: {
         type: mongoose.Schema.Types.ObjectId, //eg Volos PHP ....
-        ref: 'Source_Book',
+        ref: "Source_Book",
         required: false
     },
     ASI:{
@@ -65,6 +65,6 @@ const raceSchema = new mongoose.Schema({
             required: true
         }
     }]
-})
+});
 
-module.exports = mongoose.model('Race',raceSchema)
+module.exports = mongoose.model("Race",raceSchema);
