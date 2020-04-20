@@ -1,0 +1,100 @@
+<div class="col-sm-3"></div>
+<div class="col-sm-6" style="text-align: center;">
+<h1>Edit Spell</h1>
+<form class="form" style="text-align: left;" action="/content/spell/edit/<%=spell._id%>" method="POST">
+    <div class="form-group">
+        <label for="name"> Name</label>
+        <input autocomplete="off" type="text" name="name" value="<%=spell.name%>"class="form-control">
+    </div>
+    <label>School</label>
+    <select class="form-control" name="school">
+    <option <% if(spell.school ==="abjuration"){ %>selected<% } %>  value="abjuration">Abjuration</option>
+    <option <% if(spell.school ==="conjuration"){ %>selected<% } %>  value="conjuration">Conjuration</option>
+    <option <% if(spell.school ==="divination"){ %>selected<% } %>  value="divination">Divination</option>
+    <option <% if(spell.school ==="enchantment"){ %>selected<% } %>  value="enchantment">Enchantment</option>
+    <option <% if(spell.school ==="evocation"){ %>selected<% } %>  value="evocation">Evocation</option>
+    <option <% if(spell.school ==="illusion"){ %>selected<% } %>  value="illusion">Illusion</option>
+    <option <% if(spell.school ==="necromancy"){ %>selected<% } %>  value="necromancy">Necromancy</option>
+    <option <% if(spell.school ==="transmutation"){ %>selected<% } %>  value="transmutation">Transmutation</option>
+    </select>
+    <label>Source Book:</label>
+    <select class="form-control" name="source" id="to-edit">
+        <% books.forEach( book=> {%>
+        <option value="<%= book._id %>" <% if(spell.book == book._id){%>selected<%}%>><%= book.name %></option>
+        <% }) %>
+    </select>
+    <label>Level:</label>
+    <select class="form-control" name="lvl">
+    <option <%if(spell.level==0){ %>selected<% } %>  value="0">Cantrip</option>
+    <option <%if(spell.level==1){ %>selected<% } %>  value="1">Level 1</option>
+    <option <%if(spell.level==2){ %>selected<% } %>  value="2">Level 2</option>
+    <option <%if(spell.level==3){ %>selected<% } %>  value="3">Level 3</option>
+    <option <%if(spell.level==4){ %>selected<% } %>  value="4">Level 4</option>
+    <option <%if(spell.level==5){ %>selected<% } %>  value="5">Level 5</option>
+    <option <%if(spell.level==6){ %>selected<% } %>  value="6">Level 6</option>
+    <option <%if(spell.level==7){ %>selected<% } %>  value="7">Level 7</option>
+    <option <%if(spell.level==8){ %>selected<% } %>  value="8">Level 8</option>
+    <option <%if(spell.level==9){ %>selected<% } %>  value="9">Level 9</option>
+    </select>
+    <div class="form-group">
+        <label>Casting Time:</label>
+        <input type="number" name="cast_time" value="<%=spell.cast_time.len%>">
+        <select name="castUnit">
+            <option <%if(spell.cast_time.unit === "ac" ){%>selected<%}%> value="ac">Action</option>
+            <option <%if(spell.cast_time.unit === "ra" ){%>selected<%}%> value="ra">Reaction</option>
+            <option <%if(spell.cast_time.unit === "ba" ){%>selected<%}%> value="ba">Bonus Action</option>
+            <option <%if(spell.cast_time.unit === "min"){%>selected<%}%> value="min">Min</option>
+            <option <%if(spell.cast_time.unit === "hr" ){%>selected<%}%> value="hr">Hour</option>
+        </select>       
+        <input type="checkbox" name="ritual" <% if(spell.cast_time.ritual == true){%>checked<%}%>>
+        <label>Ritual</label>
+    </div>
+    <div class="form-group">
+        <label for="name"> Range (0 for touch and -1 for self):</label>
+        <input autocomplete="off" type="number" name="range" value="<%= spell.range%>"class="form-control" >
+    </div>
+    <div class="form-group">
+        <label>Components:</label><br>
+        <input type="checkbox" name="Verbal" value="true" <% if(spell.components.V == true){%>checked<%}%>>
+        <label> Verbal</label><br>
+        <input type="checkbox" name="Somatic" value="true" <% if(spell.components.V == true){%>checked<%}%>>
+        <label> Somatic</label><br>
+        <label for="Material">Material</label>
+        <input type="text" name="Material" value="<%=spell.components.M%>">
+    </div>
+    <div class="form-group">
+        <label>Duration:</label>
+        <input type="number" name="Duration" value="<%=spell.duration.len%>">
+        <select name="durUnit">
+            <option <%if(spell.duration.unit == "rnd"){%>selected<%}%> value="rnd">Round</option>
+            <option <%if(spell.duration.unit == "min"){%>selected<%}%> value="min">Minute</option>
+            <option <%if(spell.duration.unit == "hr"){%>selected<%}%> value="hr">Hour</option>
+            <option <%if(spell.duration.unit == "day"){%>selected<%}%> value="day">Day</option>
+            <option <%if(spell.duration.unit == "dis"){%>selected<%}%> value="dis">Until dispelled</option>
+            <option <%if(spell.duration.unit == "spe"){%>selected<%}%> value="spe">Special</option>
+        </select>       
+        <input type="checkbox" name="Concentration" <% if(spell.duration.concentration == true){%>checked<%}%>>
+        <label>Concentration</label>
+    </div>
+    <div class="form-group">
+        <label for="disc"> Description:</label>
+        <textarea name="description" class="form-control" id="disc" ><%=spell.description%></textarea>
+    </div>
+    <div class="form-group">
+        <label for="disc"> At Higer Levels</label>
+        <textarea name="Higher_Level" class="form-control" id="disc"><%=spell.at_higher_level%></textarea>
+    </div>
+    <button type="submit"  class="btn btn-default">Update</button>
+    <button onclick="deletespell();"  class="btn btn-danger">DELETE</button>
+</form>
+</div>
+
+<script>
+    function deletespell(){
+        if(confirm("Delete Spell? (This Cannot be reversed)")){
+            xhttp.open("POST", "/content/spell/delete", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("id=<%=spell._id%>"); 
+        }
+    }
+</script>

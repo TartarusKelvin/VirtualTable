@@ -117,7 +117,7 @@ router.post("/spell",async(req,res)=>
         },
         description:req.body.description,
         school:req.body.school,
-        at_higer_level:req.body.Higher_Level
+        at_higher_level:req.body.Higher_Level
     })
     console.log(spell.components.V)
     const newspell = await spell.save()
@@ -127,6 +127,35 @@ router.post("/spell",async(req,res)=>
     catch{}
     res.redirect("/content/spell/new")
 })
+
+router.get("/spell/edit/:id", async(req,res)=>{
+    let spell = await Spell.findById(req.params.id)
+    let books = await SourceBook.find()
+    res.render("edit/spell/edit",{spell:spell, books:books})
+})
+
+router.post("/spell/edit/:id", async(req,res)=>{
+    let spell = await Spell.findById(req.params.id)
+    spell.name= req.body.name,
+    spell.source_book= req.body.source,
+    spell.level= req.body.lvl,
+    spell.range= req.body.range,
+    spell.components.V= (req.body.Verbal == null? false:true),
+    spell.components.S= (req.body.Somatic == null? false:true),
+    spell.components.M= (req.body.Material == null? " ":req.body.Material)
+    spell.durationunit= req.body.durUnit,
+    spell.durationlen= req.body.Duration,
+    spell.durationconcentration= (req.body.Concentration == null? false:true),
+    spell.cast_time.unit= req.body.castUnit,
+    spell.cast_time.len= req.body.cast_time,
+    spell.cast_time.ritual= (req.body.ritual == null? false:true),
+    spell.description=req.body.description,
+    spell.school=req.body.school,
+    spell.at_higher_level=req.body.Higher_Level
+    spell.save()
+    res.redirect("spell")
+})
+
 router.get("/spell/new",async(req,res)=>
 {
     let books = await SourceBook.find()
