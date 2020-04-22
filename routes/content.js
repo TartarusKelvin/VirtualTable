@@ -134,24 +134,31 @@ router.get("/spell/edit/:id", async(req,res)=>{
 
 router.post("/spell/edit/:id", async(req,res)=>{
     let spell = await Spell.findById(req.params.id)
-    spell.name= req.body.name,
-    spell.source_book= req.body.source,
-    spell.level= req.body.lvl,
-    spell.range= req.body.range,
-    spell.components.V= (req.body.Verbal == null? false:true),
-    spell.components.S= (req.body.Somatic == null? false:true),
+    spell.name= req.body.name
+    spell.source_book= req.body.source
+    spell.level= req.body.lvl
+    spell.range= req.body.range
+    spell.components.V= (req.body.Verbal == null? false:true)
+    spell.components.S= (req.body.Somatic == null? false:true)
     spell.components.M= (req.body.Material == null? " ":req.body.Material)
-    spell.durationunit= req.body.durUnit,
-    spell.durationlen= req.body.Duration,
-    spell.durationconcentration= (req.body.Concentration == null? false:true),
-    spell.cast_time.unit= req.body.castUnit,
-    spell.cast_time.len= req.body.cast_time,
-    spell.cast_time.ritual= (req.body.ritual == null? false:true),
-    spell.description=req.body.description,
-    spell.school=req.body.school,
+    spell.durationunit= req.body.durUnit
+    spell.durationlen= req.body.Duration
+    spell.durationconcentration= (req.body.Concentration == null? false:true)
+    spell.cast_time.unit= req.body.castUnit
+    spell.cast_time.len= req.body.cast_time
+    spell.cast_time.ritual= (req.body.ritual == null? false:true)
+    spell.description=req.body.description
+    spell.school=req.body.school
     spell.at_higher_level=req.body.Higher_Level
     spell.save()
-    res.redirect("spell")
+    res.redirect("/content/spell")
+})
+
+router.post("/spell/delete", async(req,res)=>{
+    console.log("DELETE")
+    console.log("ID:",req.body.id)
+    let spell = await Spell.findByIdAndDelete(req.body.id)
+    res.redirect("/content/spell")
 })
 
 router.get("/spell/new",async(req,res)=>
