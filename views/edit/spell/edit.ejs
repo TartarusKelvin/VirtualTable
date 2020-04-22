@@ -57,7 +57,7 @@
         <label>Components:</label><br>
         <input type="checkbox" name="Verbal" value="true" <% if(spell.components.V == true){%>checked<%}%>>
         <label> Verbal</label><br>
-        <input type="checkbox" name="Somatic" value="true" <% if(spell.components.V == true){%>checked<%}%>>
+        <input type="checkbox" name="Somatic" value="true" <% if(spell.components.S == true){%>checked<%}%>>
         <label> Somatic</label><br>
         <label for="Material">Material</label>
         <input type="text" name="Material" value="<%=spell.components.M%>">
@@ -95,7 +95,6 @@
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function(){
                 if (xhttp.readyState == XMLHttpRequest.DONE) {
-                    alert("Done")
                     window.location.href = "/content/spell";
                 }
             }
