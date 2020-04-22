@@ -76,7 +76,7 @@ router.get("/spell",async(req,res)=>
         spells.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
         res.render("edit/spell/spell",{spells:spells})
     }catch{
-        res.render("edit/spell/spell", {})
+        res.render("edit/spell/spell", {spells:[],errormessage:"Something Went Wrong"})
     }
 })
 
@@ -86,7 +86,9 @@ router.get("/spell/view/:id",async(req,res)=>
         const spell = await Spell.findById(req.params.id).populate("source_book").exec()
         res.render("edit/spell/view",{spell:spell})
     }catch{
-        res.redirect("/content/spell")
+        const spells = await Spell.find().populate("source_book").exec()
+        spells.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+        res.render("edit/spell/spell",{errormessage:"Could Not Find Spell With That Name",spells})
     }
 })
 
@@ -117,41 +119,55 @@ router.post("/spell",async(req,res)=>
         school:req.body.school,
         at_higher_level:req.body.Higher_Level
     })
-    console.log(spell.components.V)
-    const newspell = await spell.save()
     try{
         const newspell = await spell.save()
+        res.redirect("/content/spell/new")
     }
-    catch{}
-    res.redirect("/content/spell/new")
+    catch(err){
+        let books = await SourceBook.find()
+        books.sort((a,b) => (a.short_name > b.short_name) ? 1 : ((b.short_name > a.short_name) ? -1 : 0));
+        res.render("edit/spell/new", {books:books,errormessage:err.message})
+    }
 })
 
 router.get("/spell/edit/:id", async(req,res)=>{
+    try{
     let spell = await Spell.findById(req.params.id)
     let books = await SourceBook.find()
     res.render("edit/spell/edit",{spell:spell, books:books})
+    }catch(err){
+        const spells = await Spell.find().populate("source_book").exec()
+        spells.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+        res.render("edit/spell/spell",{spells,errormessage:err.message})
+    }
 })
 
 router.post("/spell/edit/:id", async(req,res)=>{
-    let spell = await Spell.findById(req.params.id)
-    spell.name= req.body.name
-    spell.source_book= req.body.source
-    spell.level= req.body.lvl
-    spell.range= req.body.range
-    spell.components.V= (req.body.Verbal == null? false:true)
-    spell.components.S= (req.body.Somatic == null? false:true)
-    spell.components.M= (req.body.Material == null? " ":req.body.Material)
-    spell.durationunit= req.body.durUnit
-    spell.durationlen= req.body.Duration
-    spell.durationconcentration= (req.body.Concentration == null? false:true)
-    spell.cast_time.unit= req.body.castUnit
-    spell.cast_time.len= req.body.cast_time
-    spell.cast_time.ritual= (req.body.ritual == null? false:true)
-    spell.description=req.body.description
-    spell.school=req.body.school
-    spell.at_higher_level=req.body.Higher_Level
-    spell.save()
-    res.redirect("/content/spell")
+    try{
+        let spell = await Spell.findById(req.params.id)
+        spell.name= req.body.name
+        spell.source_book= req.body.source
+        spell.level= req.body.lvl
+        spell.range= req.body.range
+        spell.components.V= (req.body.Verbal == null? false:true)
+        spell.components.S= (req.body.Somatic == null? false:true)
+        spell.components.M= (req.body.Material == null? " ":req.body.Material)
+        spell.durationunit= req.body.durUnit
+        spell.durationlen= req.body.Duration
+        spell.durationconcentration= (req.body.Concentration == null? false:true)
+        spell.cast_time.unit= req.body.castUnit
+        spell.cast_time.len= req.body.cast_time
+        spell.cast_time.ritual= (req.body.ritual == null? false:true)
+        spell.description=req.body.description
+        spell.school=req.body.school
+        spell.at_higher_level=req.body.Higher_Level
+        spell.save()
+        res.redirect("/content/spell")
+    }catch(err){
+        let spell = await Spell.findById(req.params.id)
+        let books = await SourceBook.find()
+        res.render("/edit/spell/edit",{spell,books,errormessage:err.message});
+    }
 })
 
 router.post("/spell/delete", async(req,res)=>{
