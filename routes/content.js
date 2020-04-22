@@ -1,6 +1,7 @@
-const express = require("express")
-const router = express.Router()
-const passwordHash = require('password-hash');
+const express = require("express");
+const router = express.Router();
+const passwordHash = require("password-hash");
+const marked = require("marked");
 
 const User = require('../models/user')
 
@@ -84,11 +85,16 @@ router.get("/spell/view/:id",async(req,res)=>
 {
     try{
         const spell = await Spell.findById(req.params.id).populate("source_book").exec()
+        if(spell.description != null)
+            spell.description = marked(spell.description)
+        if(spell.at_higher_level != null)
+            spell.at_higher_level = marked(spell.at_higher_level)
         res.render("edit/spell/view",{spell:spell})
-    }catch{
+    }catch(err){
+        console.error(err.message)
         const spells = await Spell.find().populate("source_book").exec()
         spells.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
-        res.render("edit/spell/spell",{errormessage:"Could Not Find Spell With That Name",spells})
+        res.render("edit/spell/spell",{errormessage:err.message,spells})
     }
 })
 
@@ -108,12 +114,12 @@ router.post("/spell",async(req,res)=>
         duration:{
             unit: req.body.durUnit,
             len: req.body.Duration,
-            concentration: (req.body.Concentration === null? false:true),
+            concentration: ((req.body.Concentration == null)? false:true),
         },
         cast_time:{
             unit: req.body.castUnit,
             len: req.body.cast_time,
-            ritual: (req.body.ritual === null? false:true),
+            ritual: (req.body.ritual == null? false:true),
         },
         description:req.body.description,
         school:req.body.school,
@@ -154,7 +160,7 @@ router.post("/spell/edit/:id", async(req,res)=>{
         spell.components.M= (req.body.Material == null? " ":req.body.Material)
         spell.durationunit= req.body.durUnit
         spell.durationlen= req.body.Duration
-        spell.durationconcentration= (req.body.Concentration == null? false:true)
+        spell.duration.concentration= ((req.body.Concentration == null)? false:true)
         spell.cast_time.unit= req.body.castUnit
         spell.cast_time.len= req.body.cast_time
         spell.cast_time.ritual= (req.body.ritual == null? false:true)
@@ -162,7 +168,8 @@ router.post("/spell/edit/:id", async(req,res)=>{
         spell.school=req.body.school
         spell.at_higher_level=req.body.Higher_Level
         spell.save()
-        res.redirect("/content/spell")
+        res.redirect("/content/spell/view/".concat(spell._id))
+        console.log(req.body.Concentration)
     }catch(err){
         let spell = await Spell.findById(req.params.id)
         let books = await SourceBook.find()
