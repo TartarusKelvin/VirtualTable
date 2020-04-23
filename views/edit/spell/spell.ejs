@@ -6,6 +6,30 @@
 </h3>
 <a class="btn btn-primary" href="/content/spell/new" role="button">New Spell</a>
 
+<h4>
+    Search
+</h4>
+<form class="form-inline" action="/content/spell" method="GET">
+    <div class="form-group">
+        <label>Name: </label>
+        <input class="form-control" autocomplete="off" type="text" name="name" value="<%= searchOptions.name %>">
+    </div>
+    <div class="form-group">
+        <label>V: </label>
+    <input type="checkbox" name="Verbal" value="true" <% if(searchOptions.Verbal != null){ %> checked<% } %>  >
+    </div>
+    <div class="form-group">
+        <label>S: </label>
+        <input type="checkbox" name="Somatic" value="true" <% if(searchOptions.Somatic != null){ %> checked<% } %>>
+    </div>
+    <div class="form-group">
+        <label>M: </label>
+        <input type="checkbox" name="Material" value="true" <% if(searchOptions.Material != null){ %> checked<% } %>>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-default">Search</button>
+    </div>
+</form>
 
 <div style="text-align: center;">
     <% if (spells.length == 0){ %> 

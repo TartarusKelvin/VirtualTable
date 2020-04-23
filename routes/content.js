@@ -6,7 +6,7 @@ const marked = require("marked");
 const User = require('../models/user')
 
 const SourceBook = require("../models/SourceBook")
-const Spell = require("../models/spell")
+const Spell = require("../models/DND5e/spell")
 
 // New User
 router.get('/sbook',async (req,res)=>
@@ -72,12 +72,28 @@ router.post("/sbook",async (req,res)=>
 
 router.get("/spell",async(req,res)=>
 {
+    let searchOptions = {
+        'components.V': req.query.Verbal !=null ? true:new RegExp("", "i"),
+        'components.S': req.query.Somatic !=null ? true : new RegExp("", "i"),
+        'components.M': req.query.Material !=null ?new RegExp("^(?!\s*$).+"):""
+    };
+    if(req.query.name != null && req.query.name !== "");{
+        searchOptions.name = new RegExp(req.query.name, "i");
+    }
+
+    if(req.query.Somatic==null)
+        delete searchOptions["components.S"];
+    if(req.query.Verbal==null)
+        delete searchOptions["components.V"];
+    if(req.query.Material==null)
+        delete searchOptions["components.M"];
+    console.log(searchOptions)
     try{
-        const spells = await Spell.find().populate("source_book").exec()
+        const spells = await Spell.find(searchOptions).populate("source_book").exec()
         spells.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
-        res.render("edit/spell/spell",{spells:spells})
-    }catch{
-        res.render("edit/spell/spell", {spells:[],errormessage:"Something Went Wrong"})
+       res.render("edit/spell/spell",{spells:spells,searchOptions:req.query})
+    }catch(error){
+        res.render("edit/spell/spell", {spells:[],errorMessage:error.message,searchOptions:req.query})
     }
 })
 

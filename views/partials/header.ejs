@@ -7,17 +7,18 @@
             <ul class="nav navbar-nav">
                 <li><a href="/game">Games</a></li>
                 <% if (user_name != null){ %>
-                <li><a href="/game/new">Create Game</a></li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Content Mangement
-                    <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="#">Races</a></li>
-                      <li><a href="#">Items</a></li>
-                      <li><a href="/content/spell">Spells</a></li>
-                      <li><a href="/content/sbook">Source Books</a></li>
-                    </ul>
-                  </li>
+                    <li><a href="/game/new">Create Game</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Content Mangement
+                        <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#">Races</a></li>
+                          <li><a href="#">Items</a></li>
+                          <li><a href="/content/spell">Spells</a></li>
+                          <li><a href="/content/sbook">Source Books</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/character/">Characters</a></li>
                 <%}%>
             </ul>
             <ul class="nav navbar-nav navbar-right">

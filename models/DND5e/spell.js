@@ -80,4 +80,4 @@ const spellSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("Spell",spellSchema);
+module.exports = mongoose.model("DND5e-Spell",spellSchema);
