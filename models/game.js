@@ -12,6 +12,10 @@ const gameSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    system:{
+        type: String,
+        required:true
+    },
     gm: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

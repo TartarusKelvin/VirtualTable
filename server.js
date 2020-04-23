@@ -13,6 +13,7 @@ const gameRouter = require("./routes/game")
 const userRouter = require("./routes/user")
 const contentRouter = require("./routes/content")
 const playRouter = require("./routes/play")
+const characterRouter = require("./routes/character")
 
 //const Race= require("./models/race")
 
@@ -48,6 +49,7 @@ app.use('/game',gameRouter)
 app.use('/user',userRouter)
 app.use('/content',contentRouter)
 app.use('/play',playRouter)
+app.use('/character',characterRouter)
 
 app.listen(process.env.PORT || 3000)
 

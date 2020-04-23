@@ -5,7 +5,7 @@ const passwordHash = require('password-hash');
 const User = require('../models/user')
 
 const SourceBook = require("../models/SourceBook")
-const Spell = require("../models/spell")
+const Spell = require("../models/DND5e/spell")
 
 // New User
 router.get('/sbook',async (req,res)=>
