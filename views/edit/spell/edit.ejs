@@ -20,7 +20,7 @@
     <label>Source Book:</label>
     <select class="form-control" name="source" id="to-edit">
         <% books.forEach( book=> {%>
-        <option value="<%= book._id %>" <% if(spell.book == book._id){%>selected<%}%>><%= book.name %></option>
+        <option value="<%= book._id %>" <% if(spell.source_book == book._id){%>selected<%}%>><%= book.name %></option>
         <% }) %>
     </select>
     <label>Level:</label>
@@ -57,7 +57,7 @@
         <label>Components:</label><br>
         <input type="checkbox" name="Verbal" value="true" <% if(spell.components.V == true){%>checked<%}%>>
         <label> Verbal</label><br>
-        <input type="checkbox" name="Somatic" value="true" <% if(spell.components.V == true){%>checked<%}%>>
+        <input type="checkbox" name="Somatic" value="true" <% if(spell.components.S == true){%>checked<%}%>>
         <label> Somatic</label><br>
         <label for="Material">Material</label>
         <input type="text" name="Material" value="<%=spell.components.M%>">
@@ -85,13 +85,19 @@
         <textarea name="Higher_Level" class="form-control" id="disc"><%=spell.at_higher_level%></textarea>
     </div>
     <button type="submit"  class="btn btn-default">Update</button>
-    <button onclick="deletespell();"  class="btn btn-danger">DELETE</button>
+    <button onclick="deletespell();" type="button" class="btn btn-danger">DELETE</button>
 </form>
 </div>
 
 <script>
     function deletespell(){
         if(confirm("Delete Spell? (This Cannot be reversed)")){
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function(){
+                if (xhttp.readyState == XMLHttpRequest.DONE) {
+                    window.location.href = "/content/spell";
+                }
+            }
             xhttp.open("POST", "/content/spell/delete", true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhttp.send("id=<%=spell._id%>"); 
