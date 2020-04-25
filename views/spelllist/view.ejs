@@ -1,0 +1,143 @@
+<div class="col-sm-1"></div>
+<div class="col-sm-10">
+	<h2 style="text-align: center;"><%=spellList.name%></h2>
+
+	<form style="text-align: center;" class="form-inline" action="" method="GET">
+		<div class="form-group">
+			<label>Concentration: </label>
+			<select class="form-control" name="Concentration">
+                <option <%if(query.Concentration==1){%> selected<%}%>value="1">Yes</option>
+				<option <%if(query.Concentration==0){%> selected<%}%> value="0">N/A</option>
+				<option <%if(query.Concentration==-1){%> selected<%}%> value="-1">No</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label>Material: </label>
+			<select class="form-control" name="Material">
+				<option <%if(query.Material==1){%> selected<%}%>value="1">Yes</option>
+				<option <%if(query.Material==0){%> selected<%}%> value="0">N/A</option>
+				<option <%if(query.Material==-1){%> selected<%}%> value="-1">No</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<button type="submit" class="btn btn-default">Filter</button>
+		</div>
+    </form>
+    <div style="text-align: center;">
+        <a class="btn btn-primary" href="../edit/<%=spellList._id%>" role="button">Edit</a>
+    </div>
+	<%const cantrips = spells.filter(spell => spell.level == 0)%> <%const level1Spells = spells.filter(spell => spell.level == 1)%> <%const level2Spells = spells.filter(spell =>
+	spell.level == 2)%> <%const level3Spells = spells.filter(spell => spell.level == 3)%> <%const level4Spells = spells.filter(spell => spell.level == 4)%> <%const level5Spells =
+	spells.filter(spell => spell.level == 5)%> <%const level6Spells = spells.filter(spell => spell.level == 6)%> <%const level7Spells = spells.filter(spell => spell.level == 7)%>
+	<%const level8Spells = spells.filter(spell => spell.level == 8)%> <%const level9Spells = spells.filter(spell => spell.level == 9)%>
+	<div></div>
+	<%if (cantrips.length !== 0){%>
+	<div class="col-sm-3">
+		<h3>Cantrips</h3>
+		<ul>
+			<%cantrips.forEach(spell => {%>
+			<li><a href="/content/spell/view/<%=spell._id%>"><%=spell.name%></a></li>
+			<%});%>
+		</ul>
+	</div>
+	<%}%>
+	<div></div>
+	<%if (level1Spells.length !== 0){%>
+	<div class="col-sm-3">
+		<h3>Level 1</h3>
+		<ul>
+			<%level1Spells.forEach(spell => {%>
+			<li><a href="/content/spell/view/<%=spell._id%>"><%=spell.name%></a></li>
+			<%});%>
+		</ul>
+	</div>
+	<%}%>
+	<div></div>
+	<%if (level2Spells.length !== 0){%>
+	<div class="col-sm-3">
+		<h3>Level 2</h3>
+		<ul>
+			<%level2Spells.forEach(spell => {%>
+			<li><a href="/content/spell/view/<%=spell._id%>"><%=spell.name%></a></li>
+			<%});%>
+		</ul>
+	</div>
+	<%}%>
+	<div></div>
+	<%if (level3Spells.length !== 0){%>
+	<div class="col-sm-3">
+		<h3>Level 3</h3>
+		<ul>
+			<%level3Spells.forEach(spell => {%>
+			<li><a href="/content/spell/view/<%=spell._id%>"><%=spell.name%></a></li>
+			<%});%>
+		</ul>
+	</div>
+	<%}%>
+	<div></div>
+	<%if (level4Spells.length !== 0){%>
+	<div class="col-sm-3">
+		<h3>Level 4</h3>
+		<ul>
+			<%level4Spells.forEach(spell => {%>
+			<li><a href="/content/spell/view/<%=spell._id%>"><%=spell.name%></a></li>
+			<%});%>
+		</ul>
+	</div>
+	<%}%>
+	<div></div>
+	<%if (level5Spells.length !== 0){%>
+	<div class="col-sm-3">
+		<h3>Level 5</h3>
+		<ul>
+			<%level5Spells.forEach(spell => {%>
+			<li><a href="/content/spell/view/<%=spell._id%>"><%=spell.name%></a></li>
+			<%});%>
+		</ul>
+	</div>
+	<%}%>
+	<div></div>
+	<%if (level6Spells.length !== 0){%>
+	<div class="col-sm-3">
+		<h3>Level 6</h3>
+		<ul>
+			<%level6Spells.forEach(spell => {%>
+			<li><a href="/content/spell/view/<%=spell._id%>"><%=spell.name%></a></li>
+			<%});%>
+		</ul>
+	</div>
+	<%}%>
+	<div></div>
+	<%if (level7Spells.length !== 0){%>
+	<div class="col-sm-3">
+		<h3>Level 7</h3>
+		<ul>
+			<%level7Spells.forEach(spell => {%>
+			<li><a href="/content/spell/view/<%=spell._id%>"><%=spell.name%></a></li>
+			<%});%>
+		</ul>
+	</div>
+	<%}%>
+	<div></div>
+	<%if (level8Spells.length !== 0){%>
+	<div class="col-sm-3">
+		<h3>Level 8</h3>
+		<ul>
+			<%level8Spells.forEach(spell => {%>
+			<li><a href="/content/spell/view/<%=spell._id%>"><%=spell.name%></a></li>
+			<%});%>
+		</ul>
+	</div>
+	<%}%>
+	<div></div>
+	<%if (level9Spells.length !== 0){%>
+	<div class="col-sm-3">
+		<h3>Level 9</h3>
+		<ul>
+			<%level9Spells.forEach(spell => {%>
+			<li><a href="/content/spell/view/<%=spell._id%>"><%=spell.name%></a></li>
+			<%});%>
+		</ul>
+	</div>
+	<%}%>
+</div>

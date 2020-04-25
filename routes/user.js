@@ -3,7 +3,7 @@ const router = express.Router()
 const passwordHash = require('password-hash');
 const User = require('../models/user')
 
-function saveUserInfo(secret, username, remember=false){
+function saveUserInfo(secret, username, remember=false, res){
     if(remember){
         res.cookie("user_secret",secret,
             {expires: new Date(Date.now() + 900000)})
@@ -43,15 +43,16 @@ router.post("/login", async (req,res)=>
         user = users[0]
         if(passwordHash.verify(req.body.pass, user.pass))
         {
-            saveUserInfo(user.secret,user.name,req.body.remember)
+            saveUserInfo(user.secret,user.name,req.body.remember,res)
         }else{
-            throw "FAILED COMPARIOSN";
+            throw "FAILED Comparison";
         }
         res.redirect("/")
     }
-    catch{
+    catch(err){
+        console.log(err.message)
         res.render("user/login",{
-            errormessage:"Error: Incorrect Username and or password"
+            errormessage:err.message
        })
     }
 
@@ -71,7 +72,7 @@ router.post("/new", async(req, res) =>{
         users_with_same_name = await User.find(searchOptions)
         if(users_with_same_name.length === 0){
             const newUser = await user.save()
-            saveUserInfo(user.secret,user.name,req.body.remember)
+            saveUserInfo(user.secret,user.name,req.body.remember,res)
             res.redirect("/")
         } else{
             res.render("user/new",{
